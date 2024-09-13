@@ -27,6 +27,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { usePolls } from "@/context/PollContext"
 
 const formSchema = z.object({
   question: z.string().min(1, "Question is required"),
@@ -36,6 +37,7 @@ const formSchema = z.object({
 
 export function PollCreator() {
   const [open, setOpen] = useState(false)
+  const { addPoll } = usePolls();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,11 +47,32 @@ export function PollCreator() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
-    setOpen(false)
-    form.reset()
-    toast.success("Poll has been created");
+    try {
+      const response = await fetch("/api/polls", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values), // Ensure values are serialized properly
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to create poll");
+      }
+  
+      console.log("Poll created:", response);
+      const createdPoll = await response.json();
+      addPoll(createdPoll);
+      setOpen(false); 
+      form.reset();
+      toast.success("Poll has been created");
+
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to create poll");
+    }
   }
 
   const addOption = () => {

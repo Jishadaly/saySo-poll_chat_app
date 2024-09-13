@@ -5,4 +5,4 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req:NextRequest , {params}:any){
     const endpoint = params.kindeAuth
     return handleAuth(req , endpoint)
-}
+}  

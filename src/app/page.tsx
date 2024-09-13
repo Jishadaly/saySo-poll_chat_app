@@ -1,13 +1,12 @@
 
-import AuthLinks from "@/components/AuthLinks";
-import Link from 'next/link'
 import { Component } from "@/components/component";
+import { PollProvider } from "@/context/PollContext";
 
 export default function Home() {
   return (
-    
-       <Component/>
-   
+    <PollProvider>
+      <Component />
+    </PollProvider>
   );
 }
 

@@ -23,22 +23,58 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
+
 import Link from "next/link"
-import { RegisterLink, LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { RegisterLink, LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
+import { Button } from './ui/button'
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { ModeToggle } from "./ModeToggle";
 
-export function Component() {
+export async function Component() {
+  const { isAuthenticated, getUser } = getKindeServerSession();
+  const user = await getUser();
+
   return (
+    
     <div className="flex flex-col min-h-[100dvh]">
       <header className="px-4 md:mt-3 lg:px-6 h-14 flex items-center">
         <Link href="#" className="flex items-center justify-center" prefetch={false}>
-          <WebcamIcon className="h-6 w-6" />
+          <WebcamIcon className="h-6 w-6" />  
           <span className="text-xl font-bold">Sayso</span>
         </Link>
         <nav className="ml-auto flex gap-4 items-center  sm:gap-6">
-          <LoginLink className="text-sm font-medium hover:underline underline-offset-4" >Sign in</LoginLink> 
-          <RegisterLink className="text-sm font-medium hover:underline underline-offset-4" >Sign up</RegisterLink>
-          <ModeToggle/>
+          {!(await isAuthenticated()) ? (
+            <>
+              <LoginLink postLoginRedirectURL="/dashboard" className="text-sm font-medium hover:underline underline-offset-4" >Sign in</LoginLink>
+              <RegisterLink orgCode="org_58532118368"
+                postLoginRedirectURL="/registrationCallback" className="text-sm font-medium hover:underline underline-offset-4" >Sign up</RegisterLink>
+              <ModeToggle />
+            </>
+          ) : (
+            <>
+              <ModeToggle />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-full">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={user && user.picture || "/placeholder-user.jpg"} alt="@shadcn" />
+                      <AvatarFallback>{user && user.family_name}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem>My Account</DropdownMenuItem>
+                  <DropdownMenuItem>Settings</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild ><LogoutLink><span className="cursor-pointer 0 70% 35.3%">Logout</span></LogoutLink></DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          )}
+
         </nav>
       </header>
       <main className="flex-1 md:ml-32">
@@ -48,7 +84,7 @@ export function Component() {
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-10">
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none ">
-                      Engage Your Audience with Sayso
+                    Engage Your Audience with Sayso
                   </h1>
                   <p className="max-w-[600px] text-muted-foreground md:text-xl">
                     Sayso is a powerful poll-chat application that allows you to gather real-time feedback, spark
@@ -252,7 +288,7 @@ export function Component() {
   )
 }
 
-export function WebcamIcon(props:any) {
+export function WebcamIcon(props: any) {
   return (
     <svg
       {...props}

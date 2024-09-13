@@ -5,6 +5,8 @@ import "./globals.css";
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { connectToMongoDB } from "@/lib/mongodb";
+import { PollProvider } from "@/context/PollContext";
 
 export const metadata: Metadata = {
   title: "Sayso",
@@ -30,6 +32,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  connectToMongoDB();
   return (
     <html lang="en">
       <body className={cn(
@@ -44,7 +48,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <PollProvider>
           {children}
+          </PollProvider>
         </ThemeProvider>
         <Toaster position="top-center"/>
       </body>
