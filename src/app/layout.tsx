@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { connectToMongoDB } from "@/lib/mongodb";
 import { PollProvider } from "@/context/PollContext";
-
+import { ChatProvider } from "@/context/ChatContext";
 export const metadata: Metadata = {
   title: "Sayso",
   description: "Enhancive poll-chat application",
@@ -48,9 +48,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <ChatProvider>
           <PollProvider>
           {children}
           </PollProvider>
+          </ChatProvider>
         </ThemeProvider>
         <Toaster position="top-center"/>
       </body>
