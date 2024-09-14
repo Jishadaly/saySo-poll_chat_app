@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { PollDrower } from './PollDrower'
 import { ScrollArea } from '@radix-ui/react-scroll-area'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { IPoll } from '@/types/poll'
@@ -9,6 +8,8 @@ import Chat from './Chat'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
+import debounce from 'lodash.debounce'
+
 
 interface DiscussionProps {
   pollId: string;
@@ -54,7 +55,6 @@ export default function Discussion({ pollId }: DiscussionProps) {
     if(message === '') {
       return;
     }
-
     try {
       await axios.post('api/message',{
         message,
@@ -62,7 +62,6 @@ export default function Discussion({ pollId }: DiscussionProps) {
         pollId
 
       });
-
       setMessage('');
       toast.success('message was sended');
 
@@ -70,6 +69,17 @@ export default function Discussion({ pollId }: DiscussionProps) {
       console.log(error);
     }
   }
+
+  const handleTyping = debounce(()=>{
+      if (user?.email) {
+         axios.post('/api/typing',{
+          pollId,
+          email:user?.email,
+          name:user?.username
+         });
+      }
+      
+  },300);
 
   if (loading) {
     return <div className="flex-1 flex justify-center items-center">
@@ -116,7 +126,7 @@ export default function Discussion({ pollId }: DiscussionProps) {
         {/* Fixed bottom input section */}
         <div className="bg-background p-4 md:p-6 border-t sticky bottom-0 left-0 right-0">
           <form  onSubmit={handleSubmit} className="flex items-center gap-2 max-w-3xl mx-auto">
-            <Input value={message ?? ''}  onChange={(e) => setMessage(e.target.value)} type="text" placeholder="Type your message..." className="flex-1" />
+            <Input value={message ?? ''}  onChange={(e) => {setMessage(e.target.value); handleTyping() }} type="text" placeholder="Type your message..." className="flex-1" />
             <Button type='submit'  >Send</Button>
           </form>
         </div>

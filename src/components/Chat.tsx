@@ -9,18 +9,19 @@ import pusherJs from 'pusher-js';
 
 export default function Chat({ pollId }: { pollId: string }) {
 
-    // const [messages, setMessages] = useState<IMessage[] | null>([]);
     const { messages, setMessages } = useChatContext();
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const messageEndref =  useRef<HTMLDivElement | null>(null);
+    const messageEndref = useRef<HTMLDivElement | null>(null);
+    const [typing, setTyping] = useState<boolean | null>(null);
+    const [typingUser, setTypingUser] = useState<string | null>(null);
     const id = pollId;
     const { isAuthenticated, getUser } = useKindeBrowserClient();
     const user = getUser();
 
-    const scrollToBottom  = ()=>{
+    const scrollToBottom = () => {
         if (messageEndref.current) {
-            messageEndref.current.scrollIntoView({behavior:'auto'});
+            messageEndref.current.scrollIntoView({ behavior: 'auto' });
         }
     }
 
@@ -41,30 +42,43 @@ export default function Chat({ pollId }: { pollId: string }) {
                 setLoading(false);
             }
         };
-    
+
         fetchMessages();
-    
+
         const publickey = 'a11ad6345f89215d641d';
         const cluster = 'ap2';
         const pusher = new pusherJs(publickey, {
             cluster: cluster
         });
-    
+
         const channel = pusher.subscribe('poll-channel');
-    
+
         channel.bind('new-message', (data: any) => {
             console.log("Real-time data:", data);
             setMessages((prevMessages: any) => {
                 return [...(prevMessages || []), data];
-              })
+            })
         });
-    
+
+        channel.bind('user-typing', (data: any) => {
+            
+            console.log("ygygygg",user?.email);
+            console.log("typing data",data);
+            
+            if (data?.email !== user?.email) {
+
+                setTyping(true);
+                setTypingUser(data.name);
+                setTimeout(() => setTyping(false), 3000);
+            }
+        })
+
         return () => {
             channel.unbind_all();
             channel.unsubscribe();
         };
-    }, [pollId]);
-    
+    }, [pollId , setMessages ]);
+
 
 
     return (
@@ -73,37 +87,40 @@ export default function Chat({ pollId }: { pollId: string }) {
                 messages?.map((message) =>
                     <div className={`flex  gap-4 ${user?.email === message?.user?.email ? 'justify-end' : 'justify-start'}`}>
 
-                        {
-                            user?.email === message?.user?.email ? (
-                                <>
-                                    <div className="bg-card rounded-md p-3 max-w-[80%]">
-                                        {/* <div className="font-medium"> {message?.user?.username}</div> */}
-                                        <div className="text-sm">{message.text}</div>
-                                    </div>
+                        {user?.email === message?.user?.email ? (
+                            <>
+                                <div className="bg-card rounded-md p-3 max-w-[80%]">
+                                    {/* <div className="font-medium"> {message?.user?.username}</div> */}
+                                    <div className="text-sm">{message.text}</div>
+                                </div>
 
-                                    <Avatar className="w-8 h-8 border">
-                                        <AvatarImage src={message?.user?.profile} alt="@shadcn" />
-                                        <AvatarFallback>{message?.user?.username[0]}</AvatarFallback>
-                                    </Avatar>
-                                </>
-                            ) : (
-                                <>
-                                    <Avatar className="w-8 h-8 border">
-                                        <AvatarImage src={message?.user?.profile} alt="@shadcn" />
-                                        {/* <AvatarFallback>{message.user.username[0]}</AvatarFallback> */}
-                                    </Avatar>
+                                <Avatar className="w-8 h-8 border">
+                                    <AvatarImage src={message?.user?.profile} alt="@shadcn" />
+                                    <AvatarFallback>{message?.user?.username[0]}</AvatarFallback>
+                                </Avatar>
+                            </>
+                        ) : (
+                            <>
+                                <Avatar className="w-8 h-8 border">
+                                    <AvatarImage src={message?.user?.profile} alt="@shadcn" />
+                                </Avatar>
 
-                                    <div className="bg-card rounded-md p-3 max-w-[80%]">
-                                        <div className="font-medium"> {message?.user?.username}</div>
-                                        <div className="text-sm">{message.text}</div>
-                                    </div>
-                                </>
-                            )
-                        }
+                                <div className="bg-card rounded-md p-3 max-w-[80%]">
+                                    <div className="font-medium"> {message?.user?.username}</div>
+                                    <div className="text-sm">{message.text}</div>
+                                </div>
+                            </>
+                        )}
                     </div>
                 )}
 
-                <div ref={messageEndref} />
+                { typing &&  (
+                    <div className="text-sm text-gray-500">
+                        {typingUser} is typing...
+                    </div> )
+                }
+                
+            <div ref={messageEndref} />
         </div>
     )
 }

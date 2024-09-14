@@ -12,7 +12,6 @@ export default function Main({ polls }: { polls: IPoll[] }) {
      
     return (
         <>
-            
             <PollList initalPolls={polls || []} setSelectedPollId={(id: string) => setSelectedPollId(id)} />
             {selectedPollId ? (
                 <Discussion pollId={selectedPollId} />
