@@ -7,7 +7,8 @@ export interface IOption extends Document {
   text: string;
   poll: Types.ObjectId | IPoll; // Reference to Poll
   votedUsers:Types.ObjectId[]|IUser;
-  voteCount:string ;
+  voteCount:number;
+  percentage: number;
 }
 
 // Option Schema
@@ -15,7 +16,8 @@ const optionSchema = new Schema<IOption>({
   text: { type: String, required: true }, // Option text
   poll: { type: Types.ObjectId, ref: 'Poll', required: true }, // Reference to the poll this option belongs to
   votedUsers: [{ type: Types.ObjectId, ref: 'User' }],
-  voteCount :{ type: String}
+  voteCount: { type: Number, default: 0 },
+  percentage: { type: Number, default: 0 }
 });
 
 // Option Model

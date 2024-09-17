@@ -8,7 +8,7 @@ import Main from "@/components/Main";
 async function getPolls() {
   // Fetch the polls data from your API
   const response = await fetch(`${process.env.API_URL}/api/polls`, {
-    cache: 'no-store',  // To ensure fresh data is fetched each time (or use ISR options)
+    cache: 'no-store', 
   });
 
   if (!response.ok) {
@@ -33,8 +33,6 @@ export default async function Page() {
     </div>
   )
 }
-
-
 
 
 function CheckIcon(props: any) {

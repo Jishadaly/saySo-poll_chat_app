@@ -17,7 +17,7 @@ export function PollDrower({ poll }: { poll: IPoll }) {
 
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [ options , setOptions ] = useState<[]| null>(null);
+    const [options, setOptions] = useState<[] | null>(null);
     const { getUser } = useKindeBrowserClient();
     const user = getUser();
     const pollId = poll._id;
@@ -25,43 +25,53 @@ export function PollDrower({ poll }: { poll: IPoll }) {
 
     useEffect(() => {
         const fetchPoll = async () => {
-          try {
-            setLoading(true);
-            const response = await axios(`/api/options/${pollId}`);
-            console.log(response);
-    
-            if (!response) {
-              throw new Error('Failed to fetch poll data');
+            try {
+                setLoading(true);
+                const response = await axios(`/api/options/${pollId}`);
+                console.log(response);
+
+                if (!response) {
+                    throw new Error('Failed to fetch poll data');
+                }
+                const data = await response.data;
+                setOptions(data);
+                setLoading(false);
+
+            } catch (error: any) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
             }
-            const data = await response.data;
-            setOptions(data);
-            setLoading(false);
-
-          } catch (error: any) {
-            setError(error.message);
-          } finally {
-            setLoading(false);
-          }
         };
-    
-        if (pollId) {
-          fetchPoll();
-        }
-      }, []);
 
-      const handleVoteClick = async(optionId:string)=>{
-         try {
+        if (pollId) {
+            fetchPoll();
+        }
+    }, []);
+
+    const handleVoteClick = async (optionId: string) => {
+        try {
             const response = await axios.patch(`/api/options/${optionId}/${userEmail}`);
             console.log(response);
-            
-         } catch (error:any) {
-            setError(error)
-         }
-      }
+            const updatedOption = response.data;
 
-      if (loading) {
+            // Update the state with the new vote counts and percentages
+            setOptions((prevOptions: any) => {
+                if (!prevOptions) return prevOptions;
+
+                return prevOptions.map((option: IOption) =>
+                    option._id === updatedOption._id ? updatedOption : option
+                );
+            });
+
+        } catch (error: any) {
+            setError(error)
+        }
+    }
+
+    if (loading) {
         return <div> Loading.... </div>
-      }
+    }
 
     return (
 
@@ -81,34 +91,41 @@ export function PollDrower({ poll }: { poll: IPoll }) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
 
-                        { options &&  options.map((option: IOption) => (
-                            <div key={option._id} className="bg-card rounded-md p-4">
-                                <div className="flex items-center justify-between mb-2">
-                                    <div className="text-sm font-medium">{option.text}</div>
-                                    <div className="text-sm font-medium">5%</div>
-                                </div>
-                                <div className="h-2 bg-muted rounded-full">
-                                    <div className="h-2 bg-primary rounded-full w-[5%]" />
-                                </div>
+                        {options && options.map((option: IOption) => {
 
-                                <div className="flex items-center justify-between mb-2">
-                                    <div>
-                                        <Button variant="ghost" onClick={()=> handleVoteClick(option._id)
-                                        } size="icon" className="mt-2">
-                                            <CheckIcon className="w-5 h-5" />
-                                            <span className="sr-only">Select</span>
-                                        </Button>
+                            const hasVoted = option.votedUsers.some((userData:any)=> userData.email ===  user?.email ) 
+
+                            return (
+
+                                <div key={option._id} className="bg-card rounded-md p-4">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <div className="text-sm font-medium">{option.text}</div>
+                                        <div className="text-sm font-medium">{option.percentage}%</div>
                                     </div>
-
-                                    <div>
-                                    <div className="text-sm font-medium">5 votes</div>
+                                    <div className="h-2 bg-muted rounded-full">
+                                        <div className="h-2 bg-primary rounded-full" style={{ width: `${option.percentage}%` }} />
 
                                     </div>
 
-                                </div>
-                            </div>
+                                    <div className="flex items-center justify-between mb-2">
+                                        <div>
+                                            <Button variant="ghost" onClick={() => handleVoteClick(option._id)
+                                            } size="icon" className="mt-2">
+                                                <CheckIcon className="w-5 h-5" />
+                                                <span className="sr-only">Select</span>
+                                            </Button>
+                                        </div>
 
-                        ))}
+                                        <div>
+                                            <div className="text-sm font-medium">{option?.voteCount} votes {option.percentage}</div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            )
+
+                        })}
                     </div>
                 </div>
 

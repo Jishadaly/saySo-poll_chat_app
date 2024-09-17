@@ -3,4 +3,6 @@ export interface IOption {
     text: string;
     poll: string;
     votedUsers: string[]; // Array of user IDs who voted
+    voteCount:number
+    percentage: number
   }
