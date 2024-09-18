@@ -2,6 +2,21 @@
 import Option from "@/models/Options";
 import User from "@/models/User";
 import { NextResponse } from "next/server";
+import Pusher from 'pusher';
+
+const NEXT_PUBLIC_PUSHER_KEY = "a11ad6345f89215d641d"
+const NEXT_PUBLIC_PUSHER_CLUSTER = "ap2"
+const PUSHER_APP_ID = "1864332"
+const PUSHER_APP_SECRET = "c5b5701a3c858ca466e1"
+
+
+const pusher = new Pusher({
+    appId: process.env.PUSHER_APP_ID || PUSHER_APP_ID,
+    key: process.env.PUSHER_KEY || NEXT_PUBLIC_PUSHER_KEY,
+    secret: process.env.PUSHER_SECRET || PUSHER_APP_SECRET,
+    cluster: process.env.PUSHER_CLUSTER || NEXT_PUBLIC_PUSHER_CLUSTER,
+    useTLS: true
+});
 
 export async function GET(req: Request, { params }: { params: { id: string[] } }) {
     const { id } = params;
@@ -25,66 +40,70 @@ export async function PATCH(req: Request, { params }: { params: { id: string[] }
 
     try {
         const user = await User.findOne({ email: userEmail });
-        // Find the option by ID
-    const option = await Option.findById(optionId);
-    if (!option) {
-        return NextResponse.json({ error: 'Option not found' }, { status: 404 });
-    }
 
-    // Check if the user already voted
-    const hasVoted = option.votedUsers.includes(user._id);
+        const option = await Option.findById(optionId);
+        if (!option) {
+            return NextResponse.json({ error: 'Option not found' }, { status: 404 });
+        }
 
-    let updatedOption;
 
-    if (hasVoted) {
-        // User already voted, remove them from votedUsers and decrement the voteCount
-        updatedOption = await Option.findByIdAndUpdate(
-            optionId,
-            {
-                $pull: { votedUsers: user._id },
-                $inc: { voteCount: -1 }
-            },
-            { new: true }
-        ).populate({
-            path: "votedUsers",
-            select: "-_id username profile",
+        const hasVoted = option.votedUsers.includes(user._id);
+
+        let updatedOption;
+
+        if (hasVoted) {
+
+            updatedOption = await Option.findByIdAndUpdate(
+                optionId,
+                {
+                    $pull: { votedUsers: user._id },
+                    $inc: { voteCount: -1 }
+                },
+                { new: true }
+            ).populate({
+                path: "votedUsers",
+                select: "-_id username profile",
+            });
+        } else {
+
+            updatedOption = await Option.findByIdAndUpdate(
+                optionId,
+                {
+                    $push: { votedUsers: user._id },
+                    $inc: { voteCount: 1 }
+                },
+                { new: true }
+            ).populate({
+                path: "votedUsers",
+                select: "-_id username profile email",
+            });
+        }
+
+
+        const pollId = option.poll;
+        const optionsInPoll = await Option.find({ poll: pollId });
+
+
+        const totalVotes = optionsInPoll.reduce((acc, opt) => acc + opt.voteCount, 0);
+
+
+        const updatedOptions = await Promise.all(optionsInPoll.map(async (opt) => {
+            const newPercentage = totalVotes > 0 ? Math.floor((opt.voteCount / totalVotes) * 100) : 0;
+            return await Option.findByIdAndUpdate(opt._id, { percentage: newPercentage }, { new: true })
+                .populate({
+                    path: "votedUsers",
+                    select: "-_id username profile"
+                });
+        }));
+
+
+        await pusher.trigger('poll-channel', 'poll-update', {
+            poll: pollId,
+            options: updatedOptions
         });
-    } else {
-        // User hasn't voted, add them to votedUsers and increment the voteCount
-        updatedOption = await Option.findByIdAndUpdate(
-            optionId,
-            {
-                $push: { votedUsers: user._id },
-                $inc: { voteCount: 1 }
-            },
-            { new: true }
-        ).populate({
-            path: "votedUsers",
-            select: "-_id username profile email",
-        });
-    }
 
-    // Fetch all options under the same poll
-    const pollId = option.poll;
-    const optionsInPoll = await Option.find({ poll: pollId });
 
-    // Calculate total votes in the poll
-    const totalVotes = optionsInPoll.reduce((acc, opt) => acc + opt.voteCount, 0);
-
-    // Calculate percentage for each option and update them
-    for (const opt of optionsInPoll) {
-        const newPercentage = totalVotes > 0 ? Math.floor((opt.voteCount / totalVotes) * 100) : 0;
-        await Option.findByIdAndUpdate(opt._id, { percentage: newPercentage });
-    }
-    
-
-    // Return the updated option with its percentage
-    const updatedWithPercentage = await Option.findById(optionId).populate({
-        path: "votedUsers",
-        select: "-_id username profile email"
-    });
-
-    return NextResponse.json(updatedWithPercentage, { status: 200 });
+        return NextResponse.json(updatedOptions, { status: 200 });
 
     } catch (error) {
         console.error(error);

@@ -12,6 +12,7 @@ import { useEffect } from "react"
 import { useState } from "react"
 import axios from "axios"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
+import pusherJs from "pusher-js"
 
 export function PollDrower({ poll }: { poll: IPoll }) {
 
@@ -47,23 +48,32 @@ export function PollDrower({ poll }: { poll: IPoll }) {
         if (pollId) {
             fetchPoll();
         }
-    }, []);
+    }, [pollId]);
+
+    useEffect(() => {
+
+        const pusherKey = process.env.NEXT_PUBLIC_PUSHER_KEY as string;
+        const pusherCluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string;
+        const pusher = new pusherJs(pusherKey, {
+            cluster: pusherCluster
+        });
+    
+        const channel = pusher.subscribe('poll-channel');
+        channel.bind('poll-update', (data: any) => {
+          setOptions(data.options);
+        });
+    
+        return () => {
+          pusher.unsubscribe('poll-channel');
+        };
+      }, []);
 
     const handleVoteClick = async (optionId: string) => {
         try {
             const response = await axios.patch(`/api/options/${optionId}/${userEmail}`);
             console.log(response);
-            const updatedOption = response.data;
-
-            // Update the state with the new vote counts and percentages
-            setOptions((prevOptions: any) => {
-                if (!prevOptions) return prevOptions;
-
-                return prevOptions.map((option: IOption) =>
-                    option._id === updatedOption._id ? updatedOption : option
-                );
-            });
-
+            const updatedOptions = response.data;
+            setOptions(updatedOptions)
         } catch (error: any) {
             setError(error)
         }
@@ -117,7 +127,7 @@ export function PollDrower({ poll }: { poll: IPoll }) {
                                         </div>
 
                                         <div>
-                                            <div className="text-sm font-medium">{option?.voteCount} votes {option.percentage}</div>
+                                            <div className="text-sm font-medium">{option?.voteCount > 1 ? `${option?.voteCount} votes` : `${option?.voteCount} vote` } </div>
 
                                         </div>
 

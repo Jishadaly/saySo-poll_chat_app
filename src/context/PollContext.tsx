@@ -18,7 +18,13 @@ export const PollProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [selectedPollId, setSelectedPollId] = useState<string | null>(null)
 
     const addPoll = useCallback((newPoll: IPoll) => {
-        setPolls((prev) => [...prev, newPoll]); newPoll
+        setPolls((prev) => {
+
+            if (prev.some(poll => poll._id === newPoll._id)) {
+                return prev; 
+            }
+            return [...prev, newPoll];
+        });
     }, []);
     return (
         <PollContext.Provider value={{ polls, addPoll, selectedPollId, setSelectedPollId }}>
