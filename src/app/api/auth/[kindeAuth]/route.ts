@@ -8,7 +8,9 @@
 // }  
 
 import { handleAuth } from "@kinde-oss/kinde-auth-nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export default function handler(req: any, res: any) {
-  return handleAuth()(req, res);
+export async function GET(req: NextRequest) {
+  const response = await handleAuth()(req, NextResponse);
+  return response;
 }
