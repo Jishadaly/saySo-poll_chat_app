@@ -1,8 +1,4 @@
-// @see https://v0.dev/t/RYNJliUIXHx
-
 import Header from "@/components/Header"
-import PollList from "@/components/PollList"
-import Discussion from "@/components/Discussion"
 import Main from "@/components/Main";
 
 async function getPolls() {
@@ -11,10 +7,10 @@ async function getPolls() {
     cache: 'no-store', 
   });
 
-  if (!response.ok) {
+  if (!response) {
     throw new Error("Failed to fetch polls");
   }
-
+  
   const polls = await response.json();
   return polls;
 }

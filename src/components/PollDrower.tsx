@@ -82,7 +82,7 @@ export function PollDrower({ poll }: { poll: IPoll }) {
     if (loading) {
         return <div> Loading.... </div>
     }
-
+    
     return (
 
         <Drawer >
@@ -113,7 +113,7 @@ export function PollDrower({ poll }: { poll: IPoll }) {
                                         <div className="text-sm font-medium">{option.percentage}%</div>
                                     </div>
                                     <div className="h-2 bg-muted rounded-full">
-                                        <div className="h-2 bg-primary rounded-full" style={{ width: `${option.percentage}%` }} />
+                                        <div className="h-2 bg-primary rounded-full transition-all duration-500 ease-in-out" style={{ width: `${option.percentage}%` }} />
 
                                     </div>
 
@@ -138,7 +138,6 @@ export function PollDrower({ poll }: { poll: IPoll }) {
                         })}
                     </div>
                 </div>
-
 
             </DrawerContent>
         </Drawer>

@@ -1,12 +1,10 @@
 "use client"
-
 import { useState } from "react"
 import { Plus, X } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { toast } from "sonner"
-
 
 import { Button } from "@/components/ui/button"
 import {
@@ -32,7 +30,11 @@ import { usePolls } from "@/context/PollContext"
 const formSchema = z.object({
   question: z.string().min(1, "Question is required"),
   options: z.array(z.string().min(1, "Option cannot be empty")) 
-  .min(2, "At least two options are required"),
+  .min(2, "At least two options are required")
+  .refine((options) => new Set(options).size === options.length, {
+    message: "Options must be unique",
+  }),
+  
 })
 
 export function PollCreator() {
@@ -48,7 +50,7 @@ export function PollCreator() {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    
     try {
       const response = await fetch("/api/polls", {
         method: "POST",
@@ -140,11 +142,19 @@ export function PollCreator() {
                         )}
                       </div>
                     </FormControl>
-                  <FormMessage />
+                  <FormMessage /> 
+                  
                   </FormItem>
                 )}
               />
             ))}
+            
+             {form.formState.errors.options && (
+              <p className="text-red-500 text-sm">
+                {form.formState.errors.options.message}
+              </p>
+            )}
+
             <Button type="button" variant="outline" onClick={addOption}>
               <Plus className="mr-2 h-4 w-4" /> Add Option
             </Button>
@@ -156,4 +166,4 @@ export function PollCreator() {
       </DialogContent>
     </Dialog>
   )
-}
+};

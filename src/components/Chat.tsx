@@ -69,7 +69,8 @@ export default function Chat({ pollId }: { pollId: string }) {
 
                 setTyping(true);
                 setTypingUser(data.name);
-                setTimeout(() => setTyping(false), 3000);
+                // setTimeout(() => setTyping(false), 3000);
+                setTyping(false);
             }
         })
 
