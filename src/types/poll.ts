@@ -7,5 +7,6 @@ export interface IPoll {
     chatUsers: string[];
     messages: string[];
     __v: number;
+    createdAt:Date
   }
   

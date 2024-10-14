@@ -21,14 +21,13 @@ export async function POST(req: NextRequest, res: NextResponse ) {
                     text,
                     poll: newPoll._id
                 })
-
+                
                 return option._id as Types.ObjectId;
             })
         )
 
         newPoll.options = createdOptions;
         const savedPoll = await newPoll.save();
-        console.log("donne",createdOptions);
 
         return NextResponse.json(savedPoll,{status:201})
     } catch (error) {
@@ -36,8 +35,6 @@ export async function POST(req: NextRequest, res: NextResponse ) {
         return NextResponse.json({ message: 'Server error', error },{status:500})
 
     }
-
-
 }
 
 export async function GET(req: Request) {

@@ -24,6 +24,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.5.2",
+    "javascript-time-ago": "^2.5.11",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.438.0",
     "mongoose": "^8.6.1",
