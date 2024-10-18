@@ -68,7 +68,6 @@ export async function PATCH(req: Request, { params }: { params: { id: string[] }
                 select: "-_id username profile",
             });
             
-            
             updated = poll.totalVotes - 1;
         } else {
 
@@ -83,14 +82,18 @@ export async function PATCH(req: Request, { params }: { params: { id: string[] }
                 path: "votedUsers",
                 select: "-_id username profile email",
             });
+
             updated = poll.totalVotes + 1;
 
         }
 
         console.log(updated);
         
-        // const updatedPoll = await poll.findByIdAndUpdate(pollId , { totalVotes : updated });
-        // console.log(updatedPoll);
+        
+        
+        
+        const updatedPoll = await Poll.findByIdAndUpdate(pollId, { totalVotes: updated }, { new: true });
+        console.log(updatedPoll);
         
         const optionsInPoll = await Option.find({ poll: pollId });
         const totalVotes = optionsInPoll.reduce((acc, opt) => acc + opt.voteCount, 0);

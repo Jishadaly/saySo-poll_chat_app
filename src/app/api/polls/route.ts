@@ -21,7 +21,7 @@ export async function POST(req: NextRequest, res: NextResponse ) {
                     text,
                     poll: newPoll._id
                 })
-                
+
                 return option._id as Types.ObjectId;
             })
         )
@@ -45,3 +45,4 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Failed to fetch polls" }, { status: 500 });
     }
   }
+  

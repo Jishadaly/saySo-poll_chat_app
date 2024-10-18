@@ -2,16 +2,15 @@ import { Schema, model, Types, Document, models } from 'mongoose';
 import { IOption } from './Options.js';
 
 export interface IPoll extends Document {
-  
   question: string;
   options: Types.ObjectId[] | IOption[]; 
-  totleVotes:number
+  totalVotes:number
 }
 
 const pollSchema = new Schema<IPoll>({
   question: { type: String, required: true }, 
   options: [{ type: Types.ObjectId, ref: 'Option' }], 
-  totleVotes:{ type:Number, default:0 }
+  totalVotes:{ type:Number, default:0 }
 }
 ,
  {

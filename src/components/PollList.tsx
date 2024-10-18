@@ -35,7 +35,7 @@ export default function PollList({ initalPolls, setSelectedPollId }: PollListPro
 
                     <div  key={poll._id} onClick={() => setSelectedPollId(poll._id) } className="block p-2 rounded-md hover:bg-muted transition-colors" >
                         <div className="font-medium">{poll.question}</div>
-                        <div className="text-xs text-muted-foreground">23 votes • { poll.createdAt ? timeAgo.format(new Date(poll.createdAt).getTime() - 60 * 1000 ) : 'dummy time ago '}</div>
+                        <div className="text-xs text-muted-foreground">{ poll.totalVotes ? poll.totalVotes :  0 } votes • { poll.createdAt ? timeAgo.format(new Date(poll.createdAt).getTime() - 60 * 1000 ) : 'dummy time ago '}</div>
                     </div>
                 ))}
             </div>
