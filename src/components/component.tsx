@@ -12,7 +12,6 @@ export async function Component() {
   const user = await getUser();
   
   return (
-    
     <div className="flex flex-col min-h-[100dvh]">
       <header className="px-4 md:mt-3 lg:px-6 h-14 flex items-center">
         <Link href="#" className="flex items-center justify-center" prefetch={false}>
