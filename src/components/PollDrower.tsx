@@ -90,7 +90,7 @@ export function PollDrower({ poll }: { poll: IPoll }) {
                 <div className=" border-b">
                     <div className="flex items-center justify-between m-3">
                         <h2 className="text-2xl font-bold">{poll.question}</h2>
-                        <Button variant="outline" className="ml-4 cursor-pointer">View Poll</Button>
+                        <Button variant="outline" className="ml-4 cursor-pointer text-red-500">View Poll</Button>
                     </div>
                 </div>
 
