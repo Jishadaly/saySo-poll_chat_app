@@ -1,4 +1,4 @@
-
+"use-client"
 import Link from "next/link"
 import { RegisterLink, LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
@@ -35,7 +35,7 @@ export async function Component() {
                   <Button variant="ghost" size="icon" className="rounded-full">
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={user && user.picture || "/placeholder-user.jpg"} alt="@shadcn" />
-                      <AvatarFallback>{user && user.family_name}</AvatarFallback>
+                      <AvatarFallback>{user && user.given_name}</AvatarFallback>
                     </Avatar>
                   </Button>
 

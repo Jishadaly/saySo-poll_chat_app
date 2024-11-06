@@ -26,13 +26,11 @@ export default function PollList({ initalPolls, setSelectedPollId }: PollListPro
     },[initalPolls , addPoll]);
 
     return (
-        <div className="bg-background border-r w-full md:w-64 p-4 overflow-auto">
+        <div className="bg-background border-r w-full md:w-96 p-4 overflow-auto">
             <div className="text-sm font-medium mb-2">Active Polls</div>
             <div className="space-y-2">
-                {polls.map((poll) => (
-
-                
-
+                {polls.map((poll) => (  
+                    
                     <div  key={poll._id} onClick={() => setSelectedPollId(poll._id) } className="block p-2 rounded-md hover:bg-muted transition-colors" >
                         <div className="font-medium">{poll.question}</div>
                         <div className="text-xs text-muted-foreground">{ poll.totalVotes ? poll.totalVotes :  0 } votes • { poll.createdAt ? timeAgo.format(new Date(poll.createdAt).getTime() - 60 * 1000 ) : 'dummy time ago '}</div>

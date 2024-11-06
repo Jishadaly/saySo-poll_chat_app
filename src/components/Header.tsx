@@ -30,7 +30,7 @@ export default async function Header() {
                         <Button variant="ghost" size="icon" className="rounded-full">
                             <Avatar className="h-8 w-8">
                                 <AvatarImage src={user && user.picture || "/placeholder-user.jpg"} alt="@shadcn" />
-                                <AvatarFallback>{user && user.family_name}</AvatarFallback>
+                                <AvatarFallback>{user && user.given_name}</AvatarFallback>
                             </Avatar>
                         </Button>
 
