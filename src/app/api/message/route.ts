@@ -55,11 +55,10 @@ export async function POST(req: NextRequest) {
       }
     })  
 
-    console.log(savedMessage);
+    
     return NextResponse.json({ message: "Message saved successfully", savedMessage }, { status: 200 });
 
   } catch (error) {
-    console.error("Error saving message:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

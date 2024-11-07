@@ -31,7 +31,7 @@ export async function POST(req: NextRequest, res: NextResponse ) {
 
         return NextResponse.json(savedPoll,{status:201})
     } catch (error) {
-        console.log(error);
+        
         return NextResponse.json({ message: 'Server error', error },{status:500})
 
     }

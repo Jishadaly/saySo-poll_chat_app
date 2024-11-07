@@ -50,7 +50,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string[] }
         const poll = await Poll.findById(pollId);
         const hasVoted = option.votedUsers.includes(user._id);
         let updated = 0;
-        console.log(poll);
+        
         
         let updatedOption;
 
@@ -87,13 +87,13 @@ export async function PATCH(req: Request, { params }: { params: { id: string[] }
 
         }
 
-        console.log(updated);
+        
         
         
         
         
         const updatedPoll = await Poll.findByIdAndUpdate(pollId, { totalVotes: updated }, { new: true });
-        console.log(updatedPoll);
+        
         
         const optionsInPoll = await Option.find({ poll: pollId });
         const totalVotes = optionsInPoll.reduce((acc, opt) => acc + opt.voteCount, 0);

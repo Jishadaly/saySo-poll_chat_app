@@ -18,10 +18,12 @@ export async function Component() {
           <WebcamIcon className="h-6 w-6" />    
           <span className="text-xl font-bold">Sayso</span>
         </Link>
-        <nav className="ml-auto flex gap-4 items-center  sm:gap-6">
+        <nav className="ml-auto flex gap-4 items-center sm:gap-6">
           {!(await isAuthenticated()) ? (
             <>
-              <LoginLink postLoginRedirectURL={process.env.KINDE_POST_LOGIN_REDIRECT_URL} className="text-sm font-medium hover:underline underline-offset-4" >Sign in</LoginLink>
+              {/* <LoginLink postLoginRedirectURL={process.env.KINDE_POST_LOGIN_REDIRECT_URL} className="text-sm font-medium hover:underline underline-offset-4" >Sign in</LoginLink> */}
+              <LoginLink postLoginRedirectURL="/registrationCallback" className="text-sm font-medium hover:underline underline-offset-4" >Sign in</LoginLink>
+
               <RegisterLink orgCode="org_58532118368"
                 postLoginRedirectURL="/registrationCallback" className="text-sm font-medium hover:underline underline-offset-4" >Sign up</RegisterLink>
               {/* <ModeToggle /> */}

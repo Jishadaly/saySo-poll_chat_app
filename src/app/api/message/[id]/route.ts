@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request,{ params }: { params: { id: string } } ) {
     const { id } = params;
-    console.log("Poll ID:", id);
 
     try {
         const pollData = await Message.find({ poll: id }).populate({

@@ -1,5 +1,9 @@
 import Header from "@/components/Header"
 import Main from "@/components/Main";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { Button } from "@/components/ui/button";
+import { LoginLink, RegisterLink } from '@kinde-oss/kinde-auth-nextjs'; // Adjust import paths as needed
+
 
 async function getPolls() {
   // Fetch the polls data from your API
@@ -17,8 +21,38 @@ async function getPolls() {
 
 export default async function Page() {
 
+
+  const { isAuthenticated , getUser } = getKindeServerSession()
+  // const user = await getUser();
+  console.log('isauth',isAuthenticated);
+  
+  if (!isAuthenticated) {
+      return(
+        <div className="flex flex-col items-center justify-center h-screen">
+        <h1 className="text-2xl font-semibold mb-4">
+          Welcome! Please sign up or log in to continue.
+        </h1>
+        {/* <div className="flex space-x-4">
+          <LoginLink
+            postLoginRedirectURL={process.env.KINDE_POST_LOGIN_REDIRECT_URL}
+            className="text-sm font-medium hover:underline underline-offset-4"
+          >
+            Sign in
+          </LoginLink>
+          <RegisterLink
+            orgCode="org_58532118368"
+            postLoginRedirectURL="/registrationCallback"
+            className="text-sm font-medium hover:underline underline-offset-4"
+          >
+            Sign up
+          </RegisterLink>
+        </div> */}
+        <Button className="mt-4">Learn More</Button> 
+      </div>
+      );
+  }
+
   const polls = await getPolls();
-  console.log("polls", polls);
 
   return (
     <div className="flex flex-col h-screen">

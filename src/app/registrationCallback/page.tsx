@@ -12,26 +12,24 @@ export  default  function Page() {
   const router = useRouter();
 
   useEffect(() => {
-    // When the user is authenticated, make an API call to store user data
+     
     if (isAuthenticated) {
       const user = getUser();
-      console.log(user);
       
       const storeUser = async () => {
         try {
-          // Call your backend API to store the user information
-          const response = await axios.post('/api/user', {
+            const response = await axios.post('/api/user', {
             email: user?.email,
             name : user?.given_name,
             picture: user?.picture,
-            // Add any other required user details here
+            
           });
-          console.log('User stored successfully',response);
+          
           if (response.status === 201) {
             toast.success(response.data);
             router.push('/dashboard');
-
           }
+          
           toast.success(response.data);
           router.push('/dashboard');
         } catch (error) {
