@@ -1,5 +1,4 @@
 
-"use client"
 import Header from "@/components/Header"
 import Main from "@/components/Main";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
@@ -24,10 +23,13 @@ async function getPolls() {
 export default async function Page() {
 
 
-  const { isAuthenticated , getUser } = await getKindeServerSession();
-  console.log('isauth',isAuthenticated);
+  const { isAuthenticated , getUser } =  getKindeServerSession();
   
-  if (!isAuthenticated) {
+  // console.log(user);
+  
+  const user = await getUser();
+
+  if (!isAuthenticated() && !user) {
       return(
         <div className="flex flex-col items-center justify-center h-screen">
         <h1 className="text-2xl font-semibold mb-4">

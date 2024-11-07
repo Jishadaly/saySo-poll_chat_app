@@ -10,7 +10,7 @@ import { ModeToggle } from "./ModeToggle";
 export async function Component() {
   const { isAuthenticated, getUser } = getKindeServerSession();
   const user = await getUser();
-  console.log('heyyyyyyyyy')
+  
   
   return (
     <div className="flex flex-col min-h-[100dvh]">
