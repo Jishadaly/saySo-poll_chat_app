@@ -5,6 +5,7 @@ import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
 import axios from 'axios';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import Loading from '../Loading';
 
 export  default  function Page() {
   const { getUser, isAuthenticated } = useKindeBrowserClient();
@@ -45,9 +46,12 @@ export  default  function Page() {
   return (
     <div>
       {isAuthenticated ? (
-        <p>Redirecting to the dashboard...</p>
+        // 
+        <Loading/>
       ) : (
-        <p>Registering user...</p>
+        // <p>Registering user...</p>
+        <Loading/>
+
       )}
     </div>
   )

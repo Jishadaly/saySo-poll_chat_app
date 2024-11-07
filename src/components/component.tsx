@@ -24,7 +24,6 @@ export async function Component() {
             <>
               {/* <LoginLink postLoginRedirectURL={process.env.KINDE_POST_LOGIN_REDIRECT_URL} className="text-sm font-medium hover:underline underline-offset-4" >Sign in</LoginLink> */}
               <LoginLink postLoginRedirectURL="/registrationCallback" className="text-sm font-medium hover:underline underline-offset-4" >Sign in</LoginLink>
-
               <RegisterLink orgCode="org_58532118368"
                 postLoginRedirectURL="/registrationCallback" className="text-sm font-medium hover:underline underline-offset-4" >Sign up</RegisterLink>
               {/* <ModeToggle /> */}
