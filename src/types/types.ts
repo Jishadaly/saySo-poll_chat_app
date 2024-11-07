@@ -2,7 +2,7 @@
 
 export interface User {
     user?: string;
-    // Add other properties as needed
+    
 }
 
 export interface PageProps {

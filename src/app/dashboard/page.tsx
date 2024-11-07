@@ -1,3 +1,5 @@
+
+"use client"
 import Header from "@/components/Header"
 import Main from "@/components/Main";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
@@ -22,8 +24,7 @@ async function getPolls() {
 export default async function Page() {
 
 
-  const { isAuthenticated , getUser } = getKindeServerSession()
-  // const user = await getUser();
+  const { isAuthenticated , getUser } = await getKindeServerSession();
   console.log('isauth',isAuthenticated);
   
   if (!isAuthenticated) {
@@ -32,6 +33,7 @@ export default async function Page() {
         <h1 className="text-2xl font-semibold mb-4">
           Welcome! Please sign up or log in to continue.
         </h1>
+
         {/* <div className="flex space-x-4">
           <LoginLink
             postLoginRedirectURL={process.env.KINDE_POST_LOGIN_REDIRECT_URL}
@@ -47,6 +49,7 @@ export default async function Page() {
             Sign up
           </RegisterLink>
         </div> */}
+
         <Button className="mt-4">Learn More</Button> 
       </div>
       );

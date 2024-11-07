@@ -87,13 +87,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string[] }
 
         }
 
-        
-        
-        
-        
-        
         const updatedPoll = await Poll.findByIdAndUpdate(pollId, { totalVotes: updated }, { new: true });
-        
         
         const optionsInPoll = await Option.find({ poll: pollId });
         const totalVotes = optionsInPoll.reduce((acc, opt) => acc + opt.voteCount, 0);
@@ -114,9 +108,10 @@ export async function PATCH(req: Request, { params }: { params: { id: string[] }
         });
 
         return NextResponse.json(updatedOptions, { status: 200 });
-
+        
     } catch (error) {
-        console.error(error);
+        console.log(error);
+
         return NextResponse.json({ error: "Failed to update option" }, { status: 500 });
     }
 }
