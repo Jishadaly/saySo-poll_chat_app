@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Sidebar and Main Content Areas */
+  .sidebar {
+    flex: 0 0 300px; /* Fixed width for the sidebar */
+    background-color: #202123; /* Example background color */
+    border-right: 1px solid #444; /* Example border for separation */
+  }
+  
+  .main-content {
+    flex: 1; /* Takes up remaining space */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Enables scrolling if needed */
+  }
+  

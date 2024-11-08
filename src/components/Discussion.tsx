@@ -9,7 +9,8 @@ import axios from 'axios'
 import { toast } from 'sonner'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import debounce from 'lodash.debounce'
-import Loading from '@/app/Loading'
+import { Loader2 } from "lucide-react"
+
 
 
 interface DiscussionProps {
@@ -82,7 +83,7 @@ export default function Discussion({ pollId }: DiscussionProps) {
   },300);
 
   if (loading) {
-    return <div className="flex-1 flex justify-center items-center">  <Loading/>  </div>;
+    return <div className="flex-1 flex justify-center items-center"> <Loader2 className="md:h-12 md:w-12 animate-spin" />  </div>;
   }
 
   if (error) {
@@ -96,21 +97,6 @@ export default function Discussion({ pollId }: DiscussionProps) {
 
     <div className="flex-1 flex flex-col">
       <PollDrower poll={poll as IPoll} />
-
-      {/* <div className="flex-1 flex flex-col">
-        <div className="bg-background border-b p-4 md:p-6">
-          <div className="text-sm font-medium mb-2">Chat</div>
-          <ScrollArea className="flex-1 overflow-auto">
-            
-          </ScrollArea>
-        </div>
-        <div className="bg-background p-4  md:p-6">
-          <form className="flex items-center gap-2">
-            <Input type="text" placeholder="Type your message..." className="flex-1" />
-            <Button type="submit">Send</Button>
-          </form>
-        </div>
-      </div> */}
 
       <div className="flex-1 flex flex-col h-full">
         <div className="bg-background border-b p-4 md:p-6 flex-1 overflow-auto">
