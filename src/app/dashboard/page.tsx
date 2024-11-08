@@ -20,23 +20,25 @@ async function getPolls() {
   return polls;
 }
 
-export default async function Page() {
-
+export default async function Page(){
 
   const { isAuthenticated , getUser } =  getKindeServerSession();
+  
   
   // console.log(user);
   
   const user = await getUser();
 
-  if (!isAuthenticated() && !user) {
+  if ( !isAuthenticated() && !user ) {
       return(
         <div className="flex flex-col items-center justify-center h-screen">
         <h1 className="text-2xl font-semibold mb-4">
           Welcome! Please sign up or log in to continue.
         </h1>
 
-        {/* <div className="flex space-x-4">
+        { 
+
+        /* <div className="flex space-x-4">
           <LoginLink
             postLoginRedirectURL={process.env.KINDE_POST_LOGIN_REDIRECT_URL}
             className="text-sm font-medium hover:underline underline-offset-4"
@@ -50,9 +52,11 @@ export default async function Page() {
           >
             Sign up
           </RegisterLink>
-        </div> */}
+        </div> */
 
-        <Button className="mt-4">Learn More</Button> 
+        }
+
+        <Button className="mt-4">Learn More</Button>
       </div>
       );
   }

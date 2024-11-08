@@ -9,6 +9,7 @@ import axios from 'axios'
 import { toast } from 'sonner'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import debounce from 'lodash.debounce'
+import Loading from '@/app/Loading'
 
 
 interface DiscussionProps {
@@ -30,8 +31,7 @@ export default function Discussion({ pollId }: DiscussionProps) {
       try {
         setLoading(true);
         const response = await fetch(`/api/polls/${pollId}`);
-        console.log(response);
-
+        
         if (!response) {
           throw new Error('Failed to fetch poll data');
         }
@@ -82,9 +82,7 @@ export default function Discussion({ pollId }: DiscussionProps) {
   },300);
 
   if (loading) {
-    return <div className="flex-1 flex justify-center items-center">
-      <h2>Loading...</h2>
-    </div>;
+    return <div className="flex-1 flex justify-center items-center">  <Loading/>  </div>;
   }
 
   if (error) {

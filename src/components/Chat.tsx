@@ -30,8 +30,7 @@ export default function Chat({ pollId }: { pollId: string }) {
             try {
                 setLoading(true);
                 const response = await axios.get(`/api/message/${pollId}`);
-                console.log("11111111111111111", response);
-                scrollToBottom()
+                scrollToBottom();
                 if (!response) {
                     throw new Error('Failed to fetch poll data');
                 }

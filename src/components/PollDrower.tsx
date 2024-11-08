@@ -25,7 +25,9 @@ export function PollDrower({ poll }: { poll: IPoll }) {
     const userEmail = user?.email;
 
     useEffect(() => {
+
         const fetchPoll = async () => {
+
             try {
                 setLoading(true);
                 const response = await axios(`/api/options/${pollId}`);
@@ -43,6 +45,7 @@ export function PollDrower({ poll }: { poll: IPoll }) {
             } finally {
                 setLoading(false);
             }
+            
         };
 
         if (pollId) {
@@ -79,9 +82,9 @@ export function PollDrower({ poll }: { poll: IPoll }) {
         }
     }
 
-    if (loading) {
-        return <div> Loading.... </div>
-    }
+    // if (loading) {
+    //     return <div> Loading.... </div>
+    // }
     
     return (
 
