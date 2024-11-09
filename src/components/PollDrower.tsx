@@ -31,7 +31,6 @@ export function PollDrower({ poll }: { poll: IPoll }) {
             try {
                 setLoading(true);
                 const response = await axios(`/api/options/${pollId}`);
-                console.log(response);
 
                 if (!response) {
                     throw new Error('Failed to fetch poll data');
@@ -74,7 +73,6 @@ export function PollDrower({ poll }: { poll: IPoll }) {
     const handleVoteClick = async (optionId: string) => {
         try {
             const response = await axios.patch(`/api/options/${optionId}/${userEmail}`);
-            console.log(response);
             const updatedOptions = response.data;
             setOptions(updatedOptions)
         } catch (error: any) {

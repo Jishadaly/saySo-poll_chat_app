@@ -13,8 +13,6 @@ export default async function Header() {
     
     const { isAuthenticated, getUser } = getKindeServerSession();
     const user = await getUser();
-    console.log("User Information:", { user });
-    console.log("Authenticated:", { isAuthenticated });
 
     return (
         <header className="  py-4 px-6 flex items-center justify-between border-b ">

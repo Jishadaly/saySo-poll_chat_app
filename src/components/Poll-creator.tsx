@@ -64,7 +64,7 @@ export function PollCreator() {
         throw new Error("Failed to create poll");
       }
   
-      console.log("Poll created:", response);
+
       const createdPoll = await response.json();
       addPoll(createdPoll);
       setOpen(false); 
@@ -72,7 +72,7 @@ export function PollCreator() {
       toast.success("Poll has been created");
 
     } catch (error) {
-      console.log(error);
+      
       toast.error("Failed to create poll");
     }
   }

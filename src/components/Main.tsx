@@ -8,7 +8,6 @@ import Discussion from './Discussion';
 
 export default function Main({ polls }: { polls: IPoll[] }) {
      const [selectedPollId, setSelectedPollId] = useState<string | null>(null);
-     console.log({selectedPollId});
      
     return (
         <>

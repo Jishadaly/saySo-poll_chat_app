@@ -53,7 +53,7 @@ export default function Chat({ pollId }: { pollId: string }) {
         const channel = pusher.subscribe('poll-channel');
 
         channel.bind('new-message', (data: any) => {
-            console.log("Real-time data:", data);
+           
             setMessages((prevMessages: any) => {
                 return [...(prevMessages || []), data];
             })
@@ -61,8 +61,7 @@ export default function Chat({ pollId }: { pollId: string }) {
 
         channel.bind('user-typing', (data: any) => {
             
-            console.log("ygygygg",user?.email);
-            console.log("typing data",data);
+         
             
             if (data?.email !== user?.email) {
 
