@@ -68,7 +68,29 @@ export async function Component() {
                     discussions, and visualize data with ease.
                   </p>
                 </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                {(await isAuthenticated()) ? (
+
+                  <div className="flex flex-col gap-2 min-[400px]:flex-row">
+
+                    <Link
+                      href="/dashboard"
+                      className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                      prefetch={false}
+                    >
+                      Start with Sayso
+                    </Link>
+                  </div>
+
+                ) : (
+
+                  <div className="flex flex-col gap-2 min-[400px]:flex-row">
+
+                    <RegisterLink orgCode="org_58532118368"
+                      postLoginRedirectURL="/registrationCallback" className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" >explore</RegisterLink>
+                  </div>
+
+                )}
+                {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Link
                     href="/dashboard"
                     className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
@@ -76,7 +98,7 @@ export async function Component() {
                   >
                     Start with Sayso
                   </Link>
-                </div>
+                </div> */}
               </div>
               <img
                 src='https://images.pexels.com/photos/2503374/pexels-photo-2503374.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
