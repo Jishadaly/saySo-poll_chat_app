@@ -84,7 +84,7 @@ export default function Chat({ pollId }: { pollId: string }) {
         <div className="space-y-4">
             {
                 messages?.map((message) =>
-                    <div className={`flex  gap-4 ${user?.email === message?.user?.email ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`flex z-0  gap-4 ${user?.email === message?.user?.email ? 'justify-end' : 'justify-start'}`}>
 
                         {user?.email === message?.user?.email ? (
                             <>

@@ -74,7 +74,7 @@ export default function PollList({ initalPolls, setSelectedPollId }: PollListPro
     return (
         <div className="relative">
             {/* Toggle button for mobile view only */}
-            <div className="flex justify-center md:hidden mb-4">
+            <div className="flex justify-center md:hidden mb-4 ">
                 <Button onClick={() => setShowSidebar(!showSidebar)} variant="outline">
                     {showSidebar ? 'Close Polls' : 'Show Polls'}
                 </Button>
@@ -82,7 +82,7 @@ export default function PollList({ initalPolls, setSelectedPollId }: PollListPro
 
             {/* Slide-out sidebar for mobile */}
             <div
-                className={`fixed top-0 right-0 h-full bg-background border-l shadow-lg p-4 transition-transform duration-300 md:hidden ${showSidebar ? 'translate-x-0' : 'translate-x-full'
+                className={`fixed top-0 z-10 right-0 h-full bg-background border-l shadow-lg p-4 transition-transform duration-300 md:hidden ${showSidebar ? 'translate-x-0' : 'translate-x-full'
                     }`}
                 style={{ width: '300px' }}
             >
@@ -128,7 +128,7 @@ export default function PollList({ initalPolls, setSelectedPollId }: PollListPro
                 </div>
             </div>
 
-            {/* Sidebar for desktop */}
+           
             {/* Sidebar for desktop */}
             <div className="hidden md:block bg-background border-r w-full md:w-96 p-4 h-screen">
                 <div className="text-sm font-medium mb-2">Active Polls</div>
