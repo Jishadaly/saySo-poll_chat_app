@@ -74,7 +74,7 @@ export default function PollList({ initalPolls, setSelectedPollId }: PollListPro
     return (
         <div className="relative">
             {/* Toggle button for mobile view only */}
-            <div className="flex justify-center md:hidden mb-4 ">
+            <div className="flex justify-center md:hidden mb-2 mt-2">
                 <Button onClick={() => setShowSidebar(!showSidebar)} variant="outline">
                     {showSidebar ? 'Close Polls' : 'Show Polls'}
                 </Button>
