@@ -88,7 +88,7 @@ export function PollDrower({ poll }: { poll: IPoll }) {
 
         <Drawer >
             <DrawerTrigger asChild>
-                <div className=" border-b">
+                <div className=" border-b rounded-lg">
                     <div className="flex items-center justify-between m-3">
                         <h2 className="text-2xl font-bold">{poll.question}</h2>
                         <Button variant="outline" className="ml-4 cursor-pointer text-red-500">View Poll</Button>
@@ -97,7 +97,7 @@ export function PollDrower({ poll }: { poll: IPoll }) {
 
             </DrawerTrigger>
             <DrawerContent  >
-                <div className="bg-background border-b p-6 md:p-8 ">
+                <div className="bg-background border-b p-6 md:p-8 pt-0 mt-0">
                     <h2 className="text-2xl font-bold mb-2">{poll.question}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 

@@ -7,7 +7,7 @@ import { useChatContext } from '@/context/ChatContext';
 import pusherJs from 'pusher-js';
 import { Button } from './ui/button';
 import { ArrowUp } from 'lucide-react';
-
+import EmojiPicker from 'emoji-picker-react';
 
 export default function Chat({ pollId }: { pollId: string }) {
 
@@ -17,7 +17,8 @@ export default function Chat({ pollId }: { pollId: string }) {
     const messageEndref = useRef<HTMLDivElement | null>(null);
     const [typing, setTyping] = useState<boolean | null>(null);
     const [typingUser, setTypingUser] = useState<string | null>(null);
-    const [showGoToTop, setShowGoToTop] = useState<boolean>(false)
+    const [showGoToTop, setShowGoToTop] = useState<boolean>(false);
+    // const [showEmojiPicker , setShowEmojiPicker] = useState<boolean>(false);
     const id = pollId;
     const { isAuthenticated, getUser } = useKindeBrowserClient();
     const user = getUser();
@@ -33,6 +34,8 @@ export default function Chat({ pollId }: { pollId: string }) {
             window.scrollTo({ top: 0, behavior: 'auto' });
         }
     }
+
+    
 
 
 
@@ -82,7 +85,6 @@ export default function Chat({ pollId }: { pollId: string }) {
         })
 
         const handleScroll = () => {
-            console.log(window.scrollY);
 
             if (window.scrollY > 200) {
                 setShowGoToTop(true)
@@ -105,9 +107,6 @@ export default function Chat({ pollId }: { pollId: string }) {
 
     return (
         <div className="space-y-4 relative min-h-[500px]">
-
-            {/* "Go to Top" Button */}
-
 
             {
                 messages?.map((message) =>
@@ -143,15 +142,19 @@ export default function Chat({ pollId }: { pollId: string }) {
 
                 )}
 
+
+
             {showGoToTop && (
                 <Button
                     onClick={scrollToTop}
-                    className=" absolute bottom-4 sm:ml-6 right-4 rounded-full p-2 bg-white text-black shadow-lg hover:bg-primary-dark transition-all z-50"
+                    className=" absolute bottom-4 sm:ml-6 right-4 rounded-full p-2 bg-neutral-800 text-white shadow-lg hover:bg-primary-dark transition-all z-50"
                     aria-label="Scroll to Top"
                 >
                     <ArrowUp className="h-6 w-6" />
                 </Button>
             )}
+
+
 
             {typing && (
                 <div className="text-sm text-gray-500">

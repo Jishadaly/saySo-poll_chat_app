@@ -35,7 +35,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 export async function GET(req: Request) {
     try {
-        const polls = await Poll.find();
+        const polls = await Poll.find({}).sort({totalVotes:-1})
         return NextResponse.json(polls, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "Failed to fetch polls" }, { status: 500 });

@@ -24,9 +24,6 @@ export default async function Page(){
 
   const { isAuthenticated , getUser } =  getKindeServerSession();
   
-  
-  // console.log(user);
-  
   const user = await getUser();
 
   if ( !isAuthenticated() && !user ) {
