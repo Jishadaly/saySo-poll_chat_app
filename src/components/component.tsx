@@ -11,7 +11,6 @@ export async function Component() {
   const { isAuthenticated, getUser } = getKindeServerSession();
   const user = await getUser();
 
-
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <header className="px-4 md:mt-3 lg:px-6 h-14 flex items-center">
@@ -39,18 +38,16 @@ export async function Component() {
                       <AvatarFallback>{user && user.given_name}</AvatarFallback>
                     </Avatar>
                   </Button>
-
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem>{user && user.family_name}</DropdownMenuItem>
-                  {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
+                  <DropdownMenuItem>{user && user.given_name }</DropdownMenuItem>
+                  {/* <DropdownMenuItem> Settings </DropdownMenuItem> */}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild ><LogoutLink><span className="cursor-pointer 0 70% 35.3% text-red-600">Logout</span></LogoutLink></DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </>
           )}
-
 
         </nav>
       </header>

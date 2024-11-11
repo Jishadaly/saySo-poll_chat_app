@@ -59,6 +59,7 @@ export default function Discussion({ pollId }: DiscussionProps) {
       return;
     }
     try {
+
       await axios.post('api/message', {
         message,
         email,
@@ -74,6 +75,8 @@ export default function Discussion({ pollId }: DiscussionProps) {
   }
 
   const handleEmojiClick = (event:any, emojiObject:any) => {
+    
+    
     setMessage((prevMessage) => prevMessage + event.emoji);
   };
 
@@ -123,7 +126,7 @@ export default function Discussion({ pollId }: DiscussionProps) {
             )}
 
         {/* Fixed bottom input section */}
-        <div className="bg-background p-4 md:p-6 border-t rounded-3xl sticky bottom-0 left-0 right-0">
+        <div className="bg-background p-4 md:p-6 border-t rounded-t-3xl sticky bottom-0 left-0 right-0">
 
           <form onSubmit={handleSubmit} className="flex items-center gap-2 max-w-3xl mx-auto">
 
@@ -139,7 +142,6 @@ export default function Discussion({ pollId }: DiscussionProps) {
           </form>
         </div>
       </div>
-
     </div>
   )
 }

@@ -93,7 +93,7 @@ export function PollCreator() {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
         <Button variant="outline">Create Poll</Button>
       </DialogTrigger>

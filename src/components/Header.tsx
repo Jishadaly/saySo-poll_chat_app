@@ -34,7 +34,7 @@ export default async function Header() {
 
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem>{user ? user.family_name : 'user'}</DropdownMenuItem>
+                        <DropdownMenuItem>{user ? user.given_name : 'user'}</DropdownMenuItem>
                         {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild ><LogoutLink><span className="cursor-pointer 0 70% 35.3% text-red-600">Logout</span></LogoutLink></DropdownMenuItem>
