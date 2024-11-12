@@ -25,11 +25,11 @@ export async function Component() {
               <LoginLink postLoginRedirectURL="/registrationCallback" className="text-sm font-medium hover:underline underline-offset-4" >Sign in</LoginLink>
               <RegisterLink orgCode="org_58532118368"
                 postLoginRedirectURL="/registrationCallback" className="text-sm font-medium hover:underline underline-offset-4" >Sign up</RegisterLink>
-              {/* <ModeToggle /> */}
+              {/* <ModeToggle /> */}   
             </>
           ) : (
             <>
-              {/* <ModeToggle /> */}
+              {/* <ModeToggle /> */}   
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="rounded-full">
