@@ -5,7 +5,7 @@ import { Types } from "mongoose";
 
 export async function POST(req: NextRequest, res: NextResponse) {
     const body = await req.json();
-    const { question, options }: { question: string, options: string[] } = body;
+    const { question, options }: { question: string, options: string[] } = body;                                        
     try {
         const newPoll = await Poll.create({
             question,
