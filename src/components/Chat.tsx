@@ -7,7 +7,6 @@ import { useChatContext } from '@/context/ChatContext';
 import pusherJs from 'pusher-js';
 import { Button } from './ui/button';
 import { ArrowUp } from 'lucide-react';
-import EmojiPicker from 'emoji-picker-react';
 
 export default function Chat({ pollId }: { pollId: string }) {
 
@@ -18,7 +17,6 @@ export default function Chat({ pollId }: { pollId: string }) {
     const [typing, setTyping] = useState<boolean | null>(null);
     const [typingUser, setTypingUser] = useState<string | null>(null);
     const [showGoToTop, setShowGoToTop] = useState<boolean>(false);
-    // const [showEmojiPicker , setShowEmojiPicker] = useState<boolean>(false);
     const id = pollId;
     const { isAuthenticated, getUser } = useKindeBrowserClient();
     const user = getUser();
@@ -28,16 +26,11 @@ export default function Chat({ pollId }: { pollId: string }) {
             messageEndref.current.scrollIntoView({ behavior: 'auto' });
         }
     }
-
     const scrollToTop = () => {
         if (messageEndref.current) {
             window.scrollTo({ top: 0, behavior: 'auto' });
         }
     }
-
-    
-
-
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -58,9 +51,11 @@ export default function Chat({ pollId }: { pollId: string }) {
 
         fetchMessages();
 
-        const publickey = 'a11ad6345f89215d641d';
+        // const publickey = 'a11ad6345f89215d641d';
         const cluster = 'ap2';
-        const pusher = new pusherJs(publickey, {
+        const publicKey = process.env.NEXT_PUBLIC_PUSHER_KEY!
+        // const cluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string
+        const pusher = new pusherJs(publicKey, {
             cluster: cluster
         });
 
@@ -79,7 +74,6 @@ export default function Chat({ pollId }: { pollId: string }) {
 
                 setTyping(true);
                 setTypingUser(data.name);
-                // setTimeout(() => setTyping(false), 3000);
                 setTyping(false);
             }
         })
