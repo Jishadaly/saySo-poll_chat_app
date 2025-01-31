@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { IMessage } from '@/types/message';
 import axios from 'axios';
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 import { useChatContext } from '@/context/ChatContext';
@@ -51,10 +50,9 @@ export default function Chat({ pollId }: { pollId: string }) {
 
         fetchMessages();
 
-        // const publickey = 'a11ad6345f89215d641d';
-        const cluster = 'ap2';
+
+        const cluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string;
         const publicKey = process.env.NEXT_PUBLIC_PUSHER_KEY!
-        // const cluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string
         const pusher = new pusherJs(publicKey, {
             cluster: cluster
         });
