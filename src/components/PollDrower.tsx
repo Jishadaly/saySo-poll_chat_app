@@ -80,10 +80,6 @@ export function PollDrower({ poll }: { poll: IPoll }) {
         }
     }
 
-    // if (loading) {
-    //     return <div> Loading.... </div>
-    // }
-    
     return (
 
         <Drawer >
