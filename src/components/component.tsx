@@ -21,15 +21,15 @@ export async function Component() {
         <nav className="ml-auto flex gap-4 items-center sm:gap-6">
           {!(await isAuthenticated()) ? (
             <>
-              {/* <LoginLink postLoginRedirectURL={process.env.KINDE_POST_LOGIN_REDIRECT_URL} className="text-sm font-medium hover:underline underline-offset-4" >Sign in</LoginLink> */}
+              
               <LoginLink postLoginRedirectURL="/registrationCallback" className="text-sm font-medium hover:underline underline-offset-4" >Sign in</LoginLink>
               <RegisterLink orgCode="org_58532118368"
                 postLoginRedirectURL="/registrationCallback" className="text-sm font-medium hover:underline underline-offset-4" >Sign up</RegisterLink>
-              {/* <ModeToggle /> */}   
+               
             </>
           ) : (
             <>
-              {/* <ModeToggle /> */}   
+             
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="rounded-full">
@@ -41,7 +41,6 @@ export async function Component() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem>{user && user.given_name }</DropdownMenuItem>
-                  {/* <DropdownMenuItem> Settings </DropdownMenuItem> */}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild ><LogoutLink><span className="cursor-pointer 0 70% 35.3% text-red-600">Logout</span></LogoutLink></DropdownMenuItem>
                 </DropdownMenuContent>
